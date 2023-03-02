@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        class myPromise {
+            constructor(executor) {
+                // 1.执行结构
+                this.state = 'pending' // 状态
+                this.value = null // 成功的值
+                this.reason = null // 失败原因
+
+                // 8.添加缓存数组
+                this.onFulfilledCallbacks = []
+                this.onRejectedCallbacks = []
+
+                // 4.判断状态做相应的处理
+                // 成功的回调
+                let resolve = (value) => {
+                    if (this.state === 'pending') {
+                        this.state = 'fulfilled'
+                        this.value = value
+                        // 10.状态改变 依次取出
+                        // this.onFulfilledCallbacks.forEach(item => item(value))
+                        this.onFulfilledCallbacks.forEach(item => item())
+                    }
+                }
+                // 失败的回调
+                let reject = (reason) => {
+                    if (this.state === 'pending') {
+                        this.state = 'rejected'
+                        this.reason = reason
+                        // 10.状态改变 依次取出
+                        this.onRejectedCallbacks.forEach(item => item())
+                    }
+                }
+
+                // 3.执行一遍
+                executor(resolve, reject)
+            }
+
+            // 2.then
+            then(onFulfilled, onRejected) {
+
+                // 5.状态改变 调用then
+                onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : function (data) { resove(data) }
+                onRejected = typeof onRejected === 'function' ? onRejected : function (err) { throw (err) }
+                // 9.先添加进去
+                if (this.state === 'pending') {
+                    // this.onFulfilledCallbacks.push(onFulfilled)
+                    // this.onRejectedCallbacks.push(onRejected)
+                    this.onFulfilledCallbacks.push(() => {
+                        onFulfilled(this.value)
+                    })
+                    this.onRejectedCallbacks.push(() => {
+                        onRejected(this.reason)
+                    })
+                }
+            }
+        }
+
+
+
+        let p = new myPromise((resolve, reject) => {
+            setTimeout(() => {
+                resolve(111)
+            }, 1000);
+        })
+        // 7.异步失败
+        p.then(data => { console.log(data); })
+    </script>
+</body>
+
+</html>

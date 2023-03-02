@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .wrapper {
+            position: relative;
+            width: 1200px;
+            margin: 0 auto;
+            /* columns: 5;
+            column-gap: 10px; */
+        }
+
+        .wf-item {
+            position: absolute;
+        }
+
+        .wf-item .wf-img {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="wf-item 1"><img src="./img/1.jpg" class="wf-img"></div>
+        <div class="wf-item 2"><img src="./img/2.jpg" class="wf-img"></div>
+        <div class="wf-item 3"><img src="./img/3.png" class="wf-img a"></div>
+        <div class="wf-item 4"><img src="./img/4.png" class="wf-img"></div>
+        <div class="wf-item 5"><img src="./img/5.png" class="wf-img"></div>
+        <div class="wf-item"><img src="./img/6.png" class="wf-img"></div>
+        <!-- <div class="wf-item"><img src="./img/7.png" class="wf-img"></div>
+        <div class="wf-item"><img src="./img/8.png" class="wf-img"></div>
+        <div class="wf-item"><img src="./img/9.png" class="wf-img"></div>
+        <div class="wf-item"><img src="./img/10.png" class="wf-img"></div>
+        <div class="wf-item"><img src="./img/11.png" class="wf-img"></div>
+        <div class="wf-item"><img src="./img/12.jpg" class="wf-img"></div>
+        <div class="wf-item"><img src="./img/13.png" class="wf-img"></div>
+        <div class="wf-item"><img src="./img/14.gif" class="wf-img"></div>
+        <div class="wf-item"><img src="./img/15.png" class="wf-img"></div>
+        <div class="wf-item"><img src="./img/16.png" class="wf-img"></div>
+        <div class="wf-item"><img src="./img/17.png" class="wf-img"></div>
+        <div class="wf-item"><img src="./img/18.png" class="wf-img"></div>
+        <div class="wf-item"><img src="./img/20.png" class="wf-img"></div>
+        <div class="wf-item"><img src="./img/21.png" class="wf-img"></div>
+        <div class="wf-item"><img src="./img/22.jpg" class="wf-img"></div>
+        <div class="wf-item"><img src="./img/23.jpg" class="wf-img"></div>
+        <div class="wf-item"><img src="./img/24.png" class="wf-img"></div>
+        <div class="wf-item"><img src="./img/25.jpg" class="wf-img"></div>
+        <div class="wf-item"><img src="./img/26.png" class="wf-img"></div>
+        <div class="wf-item"><img src="./img/27.png" class="wf-img"></div> -->
+    </div>
+    <script>
+        function Waterfall(options) {
+
+            this.el = document.querySelector(options.el)
+            this.oItems = this.el.querySelectorAll('div')
+            this.column = options.column
+            this.gap = options.gap
+            // 获得每张图片的宽度
+            this.itemWidth = (this.el.offsetWidth - this.gap * (this.column - 1)) / this.column
+            // 存放高度的数组
+            this.heightArr = []
+            this.init()
+
+        }
+        Waterfall.prototype.init = function () {
+            let item = null
+            for (let i = 0; i < this.oItems.length; i++) {
+                item = this.oItems[i]
+                item.style.width = this.itemWidth + 'px'
+                if (i < this.column) {
+                    item.style.top = '0px'
+                    item.style.left = i * (this.itemWidth + this.gap) + 'px'
+                    // console.log(item.offsetHeight);
+                    this.heightArr.push(item.offsetHeight)
+                } else {
+                    let minIdx = getMinIdx(this.heightArr)
+                    // console.log(minIdx);
+                    // console.log(this.heightArr);
+                    item.style.left = this.oItems[minIdx].offsetLeft + 'px'
+                    item.style.top = this.heightArr[minIdx] + this.gap + 'px'
+                    this.heightArr[minIdx] += item.offsetHeight + this.gap
+                }
+            }
+        }
+
+        function getMinIdx(arr) {
+            return arr.indexOf(Math.min.apply(null, arr))
+        }
+        new Waterfall({
+            el: '.wrapper',
+            // 一行展示多少个
+            column: 5,
+            // 间距
+            gap: 10
+        })
+    </script>
+</body>
+
+</html>

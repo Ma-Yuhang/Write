@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        const n = 0.9
+        // 模拟ajax的发送
+        function request() {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    const num = Math.random()
+                    // 如果随机数大于0.9代表ajax发送成功
+                    if (num > n) {
+                        resolve(num)
+                    } else {
+                        reject(num)
+                    }
+                }, 0);
+            })
+        }
+
+
+        function retry(request, times = 0, delay = 0) {
+            return new Promise((resolve, reject) => {
+
+                // request是一件事 把它封装起来 才能在times--时调用
+                async function inner() {
+                    try {
+                        let result = await request()
+                        resolve(result)
+                    } catch (error) {
+                        if (times-- <= 0) {
+                            reject(error)
+                        } else {
+                            console.log('开始重试,剩余次数:', times);
+                            setTimeout(() => {
+                                inner()
+                            }, delay);
+                        }
+                    }
+                }
+
+                inner()
+            })
+        }
+
+
+        retry(request, 3, 2000).then(res => {
+            console.log(res, '成功');
+        }).catch(err => {
+            console.log(err, '失败');
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let obj = {
+            a: undefined,
+            b: { name: 'mayuhang', age: 18 },
+            c: [
+                {
+                    e: 1,
+                    d: undefined
+                },
+                {
+                    f: 200,
+                    d: [1, 2, 3]
+                }
+            ]
+        }
+        function deepClone(source) {
+            const targetObj = source.constructor === Array ? [] : {}
+            for (const key in source) {
+                if (source.hasOwnProperty(key)) {
+                    if (source[key] && typeof source[key] === 'object') {
+                        targetObj[key] = deepClone(source[key])
+                    } else {
+                        targetObj[key] = source[key]
+                    }
+                }
+            }
+            return targetObj
+        }
+        let newObj = deepClone(obj)
+        newObj.c[1].d = 1
+        console.log(obj, newObj);
+    </script>
+</body>
+
+</html>

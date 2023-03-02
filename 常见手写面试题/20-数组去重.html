@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 要去重的数组
+        var arr = [1, 1, 'true', 'true', true, true, 15, 15, false, false,
+            undefined, undefined, null, null, NaN, NaN, 'NaN', 0, 0, 'a', 'a', {}, {}];
+
+        // 方法一：
+        let newArr1 = [...new Set(arr)]
+        console.log(newArr1);
+
+        // 方法二：
+        let newArr2 = []
+        for (let i = 0; i < arr.length; i++) {
+            if (!newArr2.includes(arr[i])) {
+                newArr2.push(arr[i])
+            }
+        }
+        console.log(newArr2);
+
+        // 方法三
+        let newArr3 = arr.filter((x, i) => {
+            return arr.indexOf(x) === i
+        })
+        console.log(newArr3);
+
+        // 方法四
+        let newArr4 = arr.reduce((prev, next) => {
+            // console.log(prev, next)
+            return prev.includes(next) ? prev : prev.concat(next);
+        }, [])
+        console.log(newArr4);
+    </script>
+</body>
+
+</html>

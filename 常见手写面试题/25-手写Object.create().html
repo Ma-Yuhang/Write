@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // Object.create() 创建一个空对象，让这个对象的__proto__指向传进来的object
+
+    Object.create = function (object) { // 不建议
+      let obj = {}
+      obj.__proto__ = object
+      return obj
+    }
+
+    Object.create = function (object) { // 建议
+      function Fn() { }
+      Fn.prototype = object
+      return new Fn()
+    }
+  </script>
+</body>
+
+</html>
