@@ -29,31 +29,30 @@
         }
 
 
-        // 第一种，每隔一秒执行一次(第一次也不是立即执行)
-        // function throttle(func, delay) {
-        //     let flag = true
-        //     return function () {
-        //         if (!flag) return
-        //         flag = false
-        //         setTimeout(() => {
-        //             func.apply(this, arguments)
-        //             flag = true
-        //         }, delay);
-
-        //     }
-        // }
-        // 第二种 第一次立即执行后每隔一秒执行一次
+        // 第一种定时器 第一次立即执行后每隔一秒执行一次
         function throttle(func, delay) {
-            let date = Date.now()
+            let timer = null
             return function (...args) {
-                let now = Date.now()
-                // console.log(this);
-                if (now - date > delay) {
-                    func.apply(this, args)
-                    date = now
+                if (!timer) {
+                    func.apply(this, ...args)
+                    timer = setTimeout(() => {
+                        timer = null
+                    }, delay);
                 }
             }
         }
+        // 第二种时间戳 第一次立即执行后每隔一秒执行一次
+        // function throttle(func, delay) {
+        //     let date = Date.now()
+        //     return function (...args) {
+        //         let now = Date.now()
+        //         // console.log(this);
+        //         if (now - date > delay) {
+        //             func.apply(this, args)
+        //             date = now
+        //         }
+        //     }
+        // }
 
     </script>
 </body>

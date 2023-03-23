@@ -9,7 +9,7 @@ function fn(num) {
     len--
     index++
   }
-  return res.split('').reverse('').join('')
+  return res.split('').reverse().join('')
 }
 console.log(fn(num));
 

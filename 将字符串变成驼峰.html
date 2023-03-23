@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // 使用正则
+    let str = 'get_element_by_id'
+
+    function fn(str) {
+      return str.replace(/_[a-z]/g, (target, index, self) => {
+        return str[index + 1].toUpperCase()
+      })
+    }
+    console.log(fn(str));
+  </script>
+</body>
+
+</html>
