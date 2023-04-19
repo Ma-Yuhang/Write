@@ -1,24 +1,24 @@
-let str = 'AdMa bad'
+let str = 'ab cD'
+
 function fn(str) {
   let res = ''
-  for (let i = 0; i < str.length; i++) {
-    if (str[i] == ' ') {
-      res += ' '
-    }
-    // 小写变大写
-    if (str[i].charCodeAt() >= 97 && str[i].charCodeAt(0) <= 122) {
-      res += str[i].toUpperCase()
-    }
-    // 大写变小写
-    if (str[i].charCodeAt() >= 65 && str[i].charCodeAt(0) <= 90) {
-      res += str[i].toLowerCase()
+  for (const s of str) {
+    res += change(s)
+  }
+  function change(s) {
+    if (s.charCodeAt() >= 97 && s.charCodeAt() <= 122) {
+      return s.toUpperCase()
+    } else if (s.charCodeAt() >= 65 && s.charCodeAt() <= 90) {
+      return s.toLowerCase()
+    } else {
+      return s
     }
   }
   return res
 }
 console.log(fn(str));
 console.log('A'.charCodeAt()); // 65
-console.log('A'.charCodeAt()); // 90
+console.log('Z'.charCodeAt()); // 90
 console.log('a'.charCodeAt()); // 97
 console.log('z'.charCodeAt()); // 122
 console.log(' '.charCodeAt()); // 32

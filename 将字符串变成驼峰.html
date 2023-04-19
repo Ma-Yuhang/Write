@@ -15,6 +15,7 @@
 
     function fn(str) {
       return str.replace(/_[a-z]/g, (target, index, self) => {
+        console.log(target, index, self);
         return str[index + 1].toUpperCase()
       })
     }

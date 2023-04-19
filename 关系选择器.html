@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>关系选择器(兄弟、父子选择器)</title>
+  <style>
+    /* 父子选择 ，单个*/
+    /* div>span {
+      color: blue;
+      font-size: 40px;
+    } */
+
+    /* 祖先后代选择，全部 */
+    /* div span {
+      color: red;
+    } */
+
+    /* 必须是相邻兄弟 */
+    /* div+span {
+      color: greenyellow;
+    } */
+
+    /* 全兄弟选择(只要是兄弟就行) */
+    p~span {
+      color: skyblue;
+    }
+
+    p~* {
+      color: pink;
+    }
+  </style>
+</head>
+
+<body>
+  <div>
+    我是div
+    <p>
+      我是div中的p
+      <span>我是p中的span</span>
+    </p>
+    <div>我是div中的div</div>
+    <span>我是div中的span1</span>
+    <span>我是div中的span2</span>
+  </div>
+  <span>我是div之外的span1</span>
+  <span>我是div之外的span2</span>
+
+</body>
+
+</html>
