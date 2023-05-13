@@ -25,7 +25,7 @@
 
     // 方法三
     // 数组方法reduce()
-    let fn = (arr) => {
+    function fn(arr) {
       return arr.reduce((pre, ele) => {
         return pre.concat(Array.isArray(ele) ? fn(ele) : ele)
       }, [])
