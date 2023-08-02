@@ -9,7 +9,7 @@ function fn(str) {
   return str.replace(/[a-zA-Z]/g, (s, index, self) => {
     return change(s)
   })
-}
+} 
 
 function change(s) {
   return s.charCodeAt() >= 97 && s.charCodeAt() <= 122
