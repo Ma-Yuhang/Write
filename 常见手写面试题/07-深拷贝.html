@@ -10,6 +10,7 @@
 
 <body>
     <script>
+        const cache = new WeakMap()
         let obj = {
             a: undefined,
             b: { name: 'mayuhang', age: 18 },
@@ -25,20 +26,24 @@
             ]
         }
         function deepClone(source) {
-            const targetObj = source.constructor === Array ? [] : {}
+            if (typeof source !== 'object' || source === null) {
+                return source
+            }
+            if (cache.has(source)) {
+                return cache.get(source)
+            }
+            const result = Array.isArray(source) ? [] : {}
+            cache.set(source, result)
             for (const key in source) {
                 if (source.hasOwnProperty(key)) {
-                    if (source[key] && typeof source[key] === 'object') {
-                        targetObj[key] = deepClone(source[key])
-                    } else {
-                        targetObj[key] = source[key]
-                    }
+                    result[key] = deepClone(source[key])
                 }
             }
-            return targetObj
+            return result
         }
+        obj.d = obj
         let newObj = deepClone(obj)
-        newObj.c[1].d = 1
+
         console.log(obj, newObj);
     </script>
 </body>
