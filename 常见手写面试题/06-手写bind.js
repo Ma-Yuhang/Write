@@ -1,13 +1,14 @@
 Function.prototype.myBind = function (ctx, ...params) {
-    let _this = this;
+    let fn = this;
     // return function () {
     //     return _this.myCall(ctx, ...args)
     // }
     return function (...args) {
-        console.log(args);
-        console.log(params);
-        console.log(params.concat(args));
-        return _this.apply(ctx, params.concat(args))
+        if (new.target) {
+            return new fn(...params, ...args)
+        } else {
+            return fn.apply(ctx, [...params, ...args])
+        }
     }
 }
 // Function.prototype.myCall = function (ctx, ...args) {
@@ -25,4 +26,4 @@ function aa(a, b, c, d) {
     console.log(this, a, b, c, d);
 }
 var bb = aa.myBind({}, 2, 3)
-bb(4, 5)
+console.log(new bb(4, 5));
