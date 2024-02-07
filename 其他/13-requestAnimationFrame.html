@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .ball {
+      width: 100px;
+      height: 100px;
+      background-color: red;
+      position: absolute;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="ball"></div>
+  <script>
+    const ball = document.querySelector('.ball')
+    /**
+     * 动画函数
+     * from: 初始状态
+     * to: 终止状态
+     * duration: 动画执行时间
+     * callback: 逻辑处理函数
+     */
+    function animate(from, to, duration, callback) {
+      const speed = (to - from) / duration
+      const startTime = Date.now()
+      if (typeof callback !== 'function') {
+        throw new Error('须传入逻辑处理函数')
+      }
+      function _run() {
+        const time = Date.now() - startTime
+        if (time >= duration) {
+          callback(to)
+          // ball.style.transform = `translateX(${to}px)`
+          cancelAnimationFrame(rid)
+          return
+        }
+        const result = from + speed * time
+        // ball.style.transform = `translateX(${result}px)`
+        callback(result)
+        requestAnimationFrame(_run)
+      }
+
+      const rid = requestAnimationFrame(_run)
+    }
+
+    animate(100, 500, 2000, (value) => {
+      ball.style.left = value + 'px'
+    })
+    animate(100, 200, 1000, (value) => {
+      ball.style.top = value + 'px'
+    })
+    animate(0, 1, 2000, (value) => {
+      ball.style.opacity = value
+    })
+
+  </script>
+</body>
+
+</html>

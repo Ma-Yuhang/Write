@@ -10,7 +10,7 @@
 
 <body>
   <script>
-    let arr = [1, 2, [3, 4, [5, 6]]]
+    let arr = [{}, undefined, [3, 4, [5, 6, Symbol("")]]]
 
     // 方法一
     // flat() 数组方法 默认拉平一层 传入数字为几就拉平几层
@@ -31,7 +31,7 @@
       }, [])
     }
     console.log(fn(arr));
-
+    console.log(JSON.stringify({ name: undefined, age: 18, addr: '南京' }));
   </script>
 </body>
 
