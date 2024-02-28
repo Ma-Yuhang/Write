@@ -6,15 +6,16 @@ console.log('s' instanceof Object);
 function myInstanceof(example, type) {
     let typePrototype = type.prototype
     let proto = Object.getPrototypeOf(example)
-    while (true) {
-        if (typePrototype === proto) {
+    while (proto) {
+        if (proto === typePrototype) {
             return true
         }
-        if (proto === null) {
-            return false
-        }
+        // if (proto === null) {
+        //     return false
+        // }
         proto = Object.getPrototypeOf(proto)
     }
+    return false
 }
 console.log(myInstanceof(arr, Object)); // true
 console.log(myInstanceof(arr, RegExp)); // false
