@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    const urls = []
+    for (let i = 1; i <= 10; i++) {
+      urls.push(`https://jsonplaceholder.typicode.com/todos/${i}`)
+    }
+
+    concurRequest(urls, 3).then(resps => {
+      console.log(resps);
+    })
+
+    // urls: 待请求的url数组
+    // maxNum: 最大并发数
+    function concurRequest(urls, maxNum) {
+      if (urls.length === 0) {
+        return Promise.resolve([])
+      }
+      return new Promise((resolve, reject) => {
+        let i = 0
+        const result = []
+        let count = 0 // 请求完成的数量
+        async function _request() {
+          const url = urls[i]
+          const index = i
+          i++
+          try {
+            const resp = await fetch(url)
+            const data = await resp.json()
+            result[index] = data
+          } catch (error) {
+            result[index] = error
+          } finally {
+            count++
+            if(count === urls.length) {
+              resolve(result)
+            }
+            if (i < urls.length) {
+              _request()
+            }
+            
+            
+          }
+        }
+        for (let i = 0; i < Math.min(urls.length, maxNum); i++) {
+          _request()
+        }
+      })
+    }
+  </script>
+</body>
+
+</html>
