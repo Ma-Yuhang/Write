@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    const taskList = []
+    for (let i = 1; i <= 10; i++) {
+      taskList.push(() => {
+        console.log(`执行任务${i}`);
+        delay(10)
+      })
+    }
+    // 手动延迟
+    function delay(duration) {
+      const start = Date.now()
+      while (Date.now() - start < duration) { }
+    }
+    function callback(IdleDeadline) {
+      console.log('当前帧绘制完成后剩余时间：', IdleDeadline.timeRemaining());
+      while (IdleDeadline.timeRemaining() > 0 && taskList.length) {
+        const task = taskList.shift()
+        task()
+      }
+      // 退出循环如果还有任务表示当前帧没有时间了，那就下一帧执行
+      if (taskList.length > 0) {
+        window.requestIdleCallback(callback)
+      }
+    }
+
+    window.requestIdleCallback(callback)
+  </script>
+</body>
+
+</html>
