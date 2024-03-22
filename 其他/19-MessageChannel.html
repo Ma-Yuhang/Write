@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div> 
+    <input type="text" id="content" >
+  </div>
+  <div>
+    <button id="btn1">port1(给port2发消息)</button>
+    <button id="btn2">port2(给port1发消息)</button>
+  </div>
+  <script>
+    const channel = new MessageChannel()
+    // 这两个信息端口可以进行信息的通信
+    const port1 = channel.port1
+    const port2 = channel.port2
+    btn1.onclick = function() {
+      port1.postMessage(content.value)
+    }
+
+    port2.onmessage = function(e) {
+      console.log(`收到了来自port1的消息：${e.data}`);
+    }
+  </script>
+</body>
+</html>
