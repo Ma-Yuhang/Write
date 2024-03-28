@@ -1,60 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <style>
-        div {
-            width: 1000px;
-            height: 500px;
-            background-color: aqua;
-        }
+      div {
+        width: 1000px;
+        height: 500px;
+        background-color: aqua;
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <div></div>
     <script>
-        document.querySelector('div').onclick = throttle(() => {
-            a('adada')
-        }, 1000)
+      document.querySelector('div').onclick = throttle(() => {
+        a('adada')
+      }, 1000)
 
+      function a(b) {
+        console.log(this)
+        console.log('节流成功', b)
+      }
 
-        function a(b) {
-            console.log(this);
-            console.log('节流成功', b);
+      // 第一种定时器 第一次立即执行后每隔一秒执行一次
+      function throttle(func, delay) {
+        let timer = null
+        return function (...args) {
+          if (!timer) {
+            func.apply(this, ...args)
+            timer = setTimeout(() => {
+              timer = null
+            }, delay)
+          }
         }
-
-
-        // 第一种定时器 第一次立即执行后每隔一秒执行一次
-        function throttle(func, delay) {
-            let timer = null
-            return function (...args) {
-                if (!timer) {
-                    func.apply(this, ...args)
-                    timer = setTimeout(() => {
-                        timer = null
-                    }, delay);
-                }
-            }
-        }
-        // 第二种时间戳 第一次立即执行后每隔一秒执行一次
-        // function throttle(func, delay) {
-        //     let date = Date.now()
-        //     return function (...args) {
-        //         let now = Date.now()
-        //         // console.log(this);
-        //         if (now - date > delay) {
-        //             func.apply(this, args)
-        //             date = now
-        //         }
-        //     }
-        // }
-
+      }
+      // 第二种时间戳 第一次立即执行后每隔一秒执行一次
+      // function throttle(func, delay) {
+      //     let date = Date.now()
+      //     return function (...args) {
+      //         let now = Date.now()
+      //         // console.log(this);
+      //         if (now - date > delay) {
+      //             func.apply(this, args)
+      //             date = now
+      //         }
+      //     }
+      // }
     </script>
-</body>
-
+  </body>
 </html>

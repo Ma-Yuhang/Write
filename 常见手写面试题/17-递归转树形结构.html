@@ -1,68 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
+  <body>
+    <script>
+      const list = [
+        {
+          id: 1,
+          pid: 0,
+          name: '总公司1',
+        },
+        {
+          id: 11,
+          pid: 0,
+          name: '总公司2',
+        },
+        {
+          id: 2,
+          pid: 1,
+          name: '北京分公司',
+        },
+        {
+          id: 3,
+          pid: 1,
+          name: '上海分公司',
+        },
+        {
+          id: 4,
+          pid: 1,
+          name: '深圳分公司',
+        },
+        {
+          id: 5,
+          pid: 2,
+          name: '昌平办事处',
+        },
+        {
+          id: 6,
+          pid: 3,
+          name: '徐汇区办事处',
+        },
+      ]
 
-<body>
-  <script>
-    const list = [
-      {
-        id: 1,
-        pid: 0,
-        name: '总公司1'
-      },
-      {
-        id: 11,
-        pid: 0,
-        name: '总公司2'
-      },
-      {
-        id: 2,
-        pid: 1,
-        name: '北京分公司'
-      },
-      {
-        id: 3,
-        pid: 1,
-        name: '上海分公司'
-      },
-      {
-        id: 4,
-        pid: 1,
-        name: '深圳分公司'
-      },
-      {
-        id: 5,
-        pid: 2,
-        name: '昌平办事处'
-      },
-      {
-        id: 6,
-        pid: 3,
-        name: '徐汇区办事处'
+      function listToTree(data, rootValue) {
+        const arr = []
+        data.forEach((item) => {
+          if (item.pid === rootValue) {
+            // 说明找到了根
+            arr.push(item)
+            const children = listToTree(data, item.id)
+            // console.log(children,'1');
+            children.length && (item.children = children)
+          }
+        })
+        return arr
       }
-    ]
-
-    function listToTree(data, rootValue) {
-      const arr = []
-      data.forEach(item => {
-        if (item.pid === rootValue) {
-          // 说明找到了根
-          arr.push(item)
-          const children = listToTree(data, item.id)
-          // console.log(children,'1');
-          children.length && (item.children = children)
-        }
-      })
-      return arr
-    }
-    console.log(listToTree(list, 0));
-  </script>
-</body>
-
+      console.log(listToTree(list, 0))
+    </script>
+  </body>
 </html>

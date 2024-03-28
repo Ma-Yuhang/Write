@@ -1,51 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <script>
-        const cache = new WeakMap()
-        let obj = {
-            a: undefined,
-            b: { name: 'mayuhang', age: 18 },
-            c: [
-                {
-                    e: 1,
-                    d: undefined
-                },
-                {
-                    f: 200,
-                    d: [1, 2, 3]
-                }
-            ]
+      const cache = new WeakMap()
+      let obj = {
+        a: undefined,
+        b: { name: 'mayuhang', age: 18 },
+        c: [
+          {
+            e: 1,
+            d: undefined,
+          },
+          {
+            f: 200,
+            d: [1, 2, 3],
+          },
+        ],
+      }
+      function deepClone(source) {
+        if (typeof source !== 'object' || source === null) {
+          return source
         }
-        function deepClone(source) {
-            if (typeof source !== 'object' || source === null) {
-                return source
-            }
-            if (cache.has(source)) {
-                return cache.get(source)
-            }
-            const result = Array.isArray(source) ? [] : {}
-            cache.set(source, result)
-            for (const key in source) {
-                if (source.hasOwnProperty(key)) {
-                    result[key] = deepClone(source[key])
-                }
-            }
-            return result
+        if (cache.has(source)) {
+          return cache.get(source)
         }
-        obj.d = obj
-        let newObj = deepClone(obj)
+        const result = Array.isArray(source) ? [] : {}
+        cache.set(source, result)
+        for (const key in source) {
+          if (source.hasOwnProperty(key)) {
+            result[key] = deepClone(source[key])
+          }
+        }
+        return result
+      }
+      obj.d = obj
+      let newObj = deepClone(obj)
 
-        console.log(obj, newObj);
+      console.log(obj, newObj)
     </script>
-</body>
-
+  </body>
 </html>

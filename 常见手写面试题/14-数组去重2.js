@@ -12,7 +12,12 @@ function fn(arr) {
     }
   }
   function equals(val1, val2) {
-    if (typeof val1 === 'object' && val1 !== null && typeof val2 === 'object' && val2 !== null) {
+    if (
+      typeof val1 === 'object' &&
+      val1 !== null &&
+      typeof val2 === 'object' &&
+      val2 !== null
+    ) {
       if (Object.keys(val1).length !== Object.keys(val2).length) {
         return false
       }
@@ -31,4 +36,4 @@ function fn(arr) {
   }
   return newArr
 }
-console.log(fn(arr));
+console.log(fn(arr))

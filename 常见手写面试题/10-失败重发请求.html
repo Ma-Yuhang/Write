@@ -1,48 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-
-<body>
-  <script>
-    // function request(url, times = 5) {
-    //   return fetch(url).catch((err) => times === 1 ? Promise.reject(err) : request(url, times-1))
-    // }
-    function request(url, times = 3, delay = 1000) {
-      return new Promise((resolve,reject) => {
-        async function inner() {
-          try {
-            const res = await fetch(url)
-            resolve(res)
-          } catch (error) {
-            if(times === 1) {
-              reject(error)
-            }else {
+  <body>
+    <script>
+      // 失败立即重发
+      function request(url, times = 3) {
+        return fetch(url).catch((err) =>
+          times === 1 ? Promise.reject(err) : request(url, times - 1)
+        )
+      }
+      // 失败后延迟重发
+      function delayRequest(url, times = 5, delay = 1000) {
+        return fetch(url).catch((err) => {
+          if (times === 1) {
+            return Promise.reject(err.message)
+          } else {
+            times--
+            console.log(`正在重试，剩余次数：${times}`)
+            return new Promise((resolve) => {
               setTimeout(() => {
-              times--
-              console.log(`正在重试，剩余次数：${times}`);
-              inner()
-            }, delay);
-            }
+                resolve(delayRequest(url, times))
+              }, delay)
+            })
           }
-        }
-        inner()
-      })
-    }
+        })
+      }
 
-
-    request('https://jsonplaceholder.typiicode.com/todos/1').then((res) => {
-      console.log(res, 'res');
-    }).catch((err) => {
-      console.log(err, 'err');
-    })
-
-
-  </script>
-</body>
-
+      delayRequest('https://jsonplaceholder.typicod.com/todos/1')
+        .then((res) => {
+          console.log(res, 'res')
+        })
+        .catch((err) => {
+          console.log(err, 'err')
+        })
+    </script>
+  </body>
 </html>

@@ -1,38 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
+  <body>
+    <script>
+      let arr = [{}, undefined, [3, 4, [5, 6, Symbol('')]]]
 
-<body>
-  <script>
-    let arr = [{}, undefined, [3, 4, [5, 6, Symbol("")]]]
+      // 方法一
+      // flat() 数组方法 默认拉平一层 传入数字为几就拉平几层
+      // Infinity 无穷大
+      let newArr = arr.flat(Infinity)
+      console.log(newArr)
 
-    // 方法一
-    // flat() 数组方法 默认拉平一层 传入数字为几就拉平几层
-    // Infinity 无穷大
-    let newArr = arr.flat(Infinity)
-    console.log(newArr);
+      // 方法二
+      // JSON.stringify() 和 JSON.parse()结合使用
+      let newArr2 = JSON.parse(`[${JSON.stringify(arr).replace(/\[|\]/g, '')}]`)
+      console.log(newArr2)
 
-    // 方法二
-    // JSON.stringify() 和 JSON.parse()结合使用
-    let newArr2 = JSON.parse(`[${JSON.stringify(arr).replace(/\[|\]/g, '')}]`)
-    console.log(newArr2);
-
-    // 方法三
-    // 数组方法reduce()
-    function fn(arr) {
-      return arr.reduce((pre, ele) => {
-        return pre.concat(Array.isArray(ele) ? fn(ele) : ele)
-      }, [])
-    }
-    console.log(fn(arr));
-    console.log(JSON.stringify({ name: undefined, age: 18, addr: '南京' }));
-  </script>
-</body>
-
+      // 方法三
+      // 数组方法reduce()
+      function fn(arr) {
+        return arr.reduce((pre, ele) => {
+          return pre.concat(Array.isArray(ele) ? fn(ele) : ele)
+        }, [])
+      }
+      console.log(fn(arr))
+      console.log(JSON.stringify({ name: undefined, age: 18, addr: '南京' }))
+    </script>
+  </body>
 </html>

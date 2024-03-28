@@ -4,7 +4,11 @@
  * @returns {string}
  */
 function toChineseNumber(num) {
-  const numStr = num.toString().replace(/(?=(\d{4})+$)/g, ',').split(',').filter(Boolean)
+  const numStr = num
+    .toString()
+    .replace(/(?=(\d{4})+$)/g, ',')
+    .split(',')
+    .filter(Boolean)
   const chars = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九']
   const units = ['', '十', '百', '千']
   const bigUnits = ['', '万', '亿']
@@ -59,11 +63,14 @@ function toBigChineseNumber(num) {
     百: '佰',
     千: '仟',
     万: '萬',
-    亿: '亿'
+    亿: '亿',
   }
-  const res = str.split('').map(s => map[s]).join('')
+  const res = str
+    .split('')
+    .map((s) => map[s])
+    .join('')
   return res
 }
 
-console.log(toChineseNumber(123400004567));
-console.log(toBigChineseNumber(123400004567));
+console.log(toChineseNumber(123400004567))
+console.log(toBigChineseNumber(123400004567))

@@ -17,19 +17,19 @@
 // console.log(aaa.myCall({}, 2, 3));
 
 Function.prototype.Call = function (ctx, ...args) {
-    ctx = ctx == null ? globalThis : Object(ctx)
-    let key = Symbol('key')
-    // ctx[key] = this
-    Object.defineProperty(ctx, key, {
-        enumerable: false,
-        value: this
-    })
-    let result = ctx[key](...args)
-    delete ctx[key]
-    return result
+  ctx = ctx == null ? globalThis : Object(ctx)
+  const key = Symbol('key')
+  // ctx[key] = this
+  Object.defineProperty(ctx, key, {
+    enumerable: false,
+    value: this,
+  })
+  let result = ctx[key](...args)
+  delete ctx[key]
+  return result
 }
 function aaa(a, b) {
-    console.log(this, a, b);
-    return a + b;
-};
-console.log(aaa.Call({}, 2, 3));
+  console.log(this, a, b)
+  return a + b
+}
+console.log(aaa.Call({}, 2, 3))

@@ -10,4 +10,4 @@ function tenToTwo(num, n) {
   }
   return res.join('')
 }
-console.log(tenToTwo(7,8));
+console.log(tenToTwo(7, 8))
