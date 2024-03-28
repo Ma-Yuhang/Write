@@ -47,10 +47,11 @@ function memoize(func, resolver) {
   return memoized
 }
 
-const object = { a: 1, b: 2 }
+let object = { a: 1, b: 2 }
 const other = { a: 3, b: 4 }
 const values = memoize(delay, () => object)
 console.log(values(1,2))
+object = {}
 console.log(values(1,2))
 // const values = memoize((obj) => Object.values(obj))
 // console.log(values(object)) // [1, 2]
