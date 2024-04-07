@@ -26,24 +26,40 @@ globalThis.double = function double(n) {
 //     }
 //   }
 // }
-function chain(n) {
-  const proxy = new Proxy(
-    { n },
+function chain(num) {
+  return new Proxy(
+    {},
     {
       get(target, key) {
         if (key === 'end') {
-          return target.n
+          return num
         }
         if (typeof globalThis[key] === 'function') {
-          target.n = globalThis[key](target.n)
-          return proxy
+          return chain(Number(globalThis[key](num)))
         }
         return target[key]
       },
     }
   )
-  return proxy
 }
+// function chain(n) {
+//   const proxy = new Proxy(
+//     { n },
+//     {
+//       get(target, key) {
+//         if (key === 'end') {
+//           return target.n
+//         }
+//         if (typeof globalThis[key] === 'function') {
+//           target.n = globalThis[key](target.n)
+//           return proxy
+//         }
+//         return target[key]
+//       },
+//     }
+//   )
+//   return proxy
+// }
 
 console.log(chain(3).increase.double.end) // 8
 console.log(chain(2).decrease.double.end) // 2
