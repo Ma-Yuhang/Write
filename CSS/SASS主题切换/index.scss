@@ -1,0 +1,34 @@
+$themes: (
+  light: (
+    textColor: #000,
+    bgColor: #fff,
+  ),
+  dark: (
+    textColor: #fff,
+    bgColor: #000,
+  ),
+);
+$theme: ();
+
+@mixin useTheme() {
+  @each $key, $value in $themes {
+    $theme: $value !global;
+    html[data-theme='#{$key}'] & {
+      @content;
+    }
+  }
+}
+
+@function getVar($paramName) {
+  @return map-get($theme, $paramName);
+}
+
+.item {
+  font-size: 30px;
+  width: 200px;
+  height: 200px;
+  @include useTheme() {
+    color: getVar('textColor');
+    background-color: getVar('bgColor');
+  }
+}

@@ -1,0 +1,15 @@
+.item {
+  font-size: 30px;
+  width: 200px;
+  height: 200px;
+}
+
+html[data-theme='light'] .item {
+  color: #000;
+  background-color: #fff;
+}
+
+html[data-theme='dark'] .item {
+  color: #fff;
+  background-color: #000;
+}
