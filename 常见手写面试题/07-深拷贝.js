@@ -15,7 +15,7 @@ let obj = {
 function deepClone(source) {
   // 不污染全局变量 WeakMap利于进行垃圾回收
   const cache = new WeakMap()
-  function _deepClone() {
+  function _deepClone(source) {
     if (typeof source !== 'object' || source === null) {
       return source
     }
@@ -34,7 +34,7 @@ function deepClone(source) {
     }
     return result
   }
-  return _deepClone()
+  return _deepClone(source)
 }
 obj.f = obj
 let newObj = deepClone(obj)
