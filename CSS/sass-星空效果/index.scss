@@ -1,0 +1,50 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+@function getShadows($n) {
+  $shadows: '#{random(100)}vw #{random(100)}vh #fff';
+  @for $i from 1 through $n {
+    $shadows: #{$shadows}, #{random(100)}vw #{random(100)}vh #fff;
+  }
+  @return $shadows;
+}
+.star-container {
+  width: 100vw;
+  height: 100vh;
+  background-color: #000;
+  $duration: 400s;
+  $count: 1000;
+  @for $i from 1 through 5 {
+    .star#{$i} {
+      $size: #{$i}px;
+      $duration: $duration / 2;
+      $count: $count / 2;
+      width: $size;
+      height: $size;
+      border-radius: 50%;
+      position: fixed;
+      left: 0;
+      top: 0;
+      box-shadow: getShadows($count);
+      animation: moveUp $duration linear infinite;
+      &::after {
+        width: inherit;
+        height: inherit;
+        content: '';
+        position: fixed;
+        left: 0;
+        top: 100vh;
+        border-radius: inherit;
+        box-shadow: inherit;
+      }
+    } 
+  }
+}
+
+@keyframes moveUp {
+  100% {
+    transform: translateY(-100vh);
+  }
+}
