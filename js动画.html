@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <button id="btn">打折</button>
+  <div id="div">
+    价格：30
+  </div>
+  <script>
+    var btn = document.getElementById('btn');
+    var div = document.getElementById('div');
+    btn.addEventListener('click', () => {
+      animation({
+        from: 30,
+        to: 3000,
+        duration: 2000,
+        onUpdate: (value) => {
+          div.innerText = `价格：${value}`
+        }
+      })
+    })
+
+    const animation = ({from, to, duration = 1000, onUpdate}) => {
+      let value = from
+      const start = Date.now()
+      const speed = (to - from) / duration
+      function run() {
+        const t = Date.now() - start
+        if(t >= duration) {
+          value = Math.floor(to)
+          onUpdate && onUpdate(value)
+          return
+        }
+        value = Math.floor(from + t * speed)
+        onUpdate && onUpdate(value)
+        requestAnimationFrame(run)
+      }
+
+      run()
+    }
+  </script>
+</body>
+</html>
