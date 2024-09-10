@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 获取数据
+      function getData(id) {
+        return new Promise((resolve, reject) => {
+          console.log('发起请求')
+
+          setTimeout(() => {
+            resolve({
+              data: id,
+            })
+          }, 500)
+        })
+      }
+
+      function asyncOnce(cb) {
+        let taskMap = new Map()
+        return (...args) => {
+          return new Promise((resolve, reject) => {
+            // 将参数转换为字符串（参数不同需要发请求）
+            const key = JSON.stringify(args)
+            if (!taskMap.has(key)) {
+              // 将参数作为key，参数一样不需要重复发起请求
+              taskMap.set(key, {
+                resolve: [], // 保存当前参数的多个resolve
+                reject: [], // 保存当前参数的多个reject
+                isLoading: false, // 是否正在请求
+              })
+            }
+            const state = taskMap.get(key)
+            state.resolve.push(resolve)
+            state.reject.push(reject)
+            if (state.isLoading) return
+            state.isLoading = true
+            cb(...args)
+              .then((res) => {
+                state.resolve.forEach((resolve) => resolve(res))
+              })
+              .catch((err) => {
+                state.reject.forEach((reject) => reject(err))
+              })
+              .finally(() => {
+                taskMap.delete(key)
+              })
+          })
+        }
+      }
+
+      const getDataOnce = asyncOnce(getData)
+
+      getDataOnce(1).then((data) => {
+        console.log(data)
+      })
+
+      getDataOnce(1).then((data) => {
+        console.log(data)
+      })
+
+      getDataOnce(3).then((data) => {
+        console.log(data)
+      })
+    </script>
+  </body>
+</html>
