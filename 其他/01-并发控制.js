@@ -18,29 +18,37 @@ class SuperTask {
       this.tasks.push({
         task,
         resolve,
-        reject
+        reject,
       })
       this._run() // 执行任务
     })
   }
 
   _run() {
-    while (this.runningCount < this.parallelCount && this.tasks.length > 0) {
-      const { task, resolve, reject } = this.tasks.shift()
-      this.runningCount++
-      task().then(resolve, reject).finally(() => {
+    if (this.runningCount >= this.parallelCount) {
+      return
+    }
+    if (this.tasks.length <= 0) {
+      return
+    }
+    const { task, resolve, reject } = this.tasks.shift()
+    this.runningCount++
+    task()
+      .then(resolve, reject)
+      .finally(() => {
         this.runningCount--
         this._run()
       })
-    }
   }
 }
 const superTask = new SuperTask()
 
 function addTask(time, name) {
-  superTask.add(() => timeout(time)).then(() => {
-    console.log(`任务${name}完成`);
-  })
+  superTask
+    .add(() => timeout(time))
+    .then(() => {
+      console.log(`任务${name}完成`)
+    })
 }
 
 addTask(10000, 1) // 10s后输出：任务1完成
