@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      img {
+        display: block;
+        width: 300px;
+        height: 300px;
+        margin-bottom: 100px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <img src="./img/loading.gif" data-src="./img/1.jpg" />
+    <img src="./img/loading.gif" data-src="./img/2.jpg" />
+    <img src="./img/loading.gif" data-src="./img/3.jpg" />
+    <img src="./img/loading.gif" data-src="./img/4.jpg" />
+    <img src="./img/loading.gif" data-src="./img/5.jpg" />
+    <img src="./img/loading.gif" data-src="./img/6.jpg" />
+    <img src="./img/loading.gif" data-src="./img/7.jpg" />
+    <img src="./img/loading.gif" data-src="./img/8.jpg" />
+    <img src="./img/loading.gif" data-src="./img/9.jpg" />
+    <script>
+      const imgs = document.querySelectorAll('img')
+
+      // 交叉行为发生变化就执行（打开会先执行一次）
+      const callback = (entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const img = entry.target
+            img.src = img.getAttribute('data-src')
+            observer.unobserve(img) // 停止观察
+          }
+        })
+      }
+
+      const observer = new IntersectionObserver(callback, {
+        root: null, // 默认为null 即浏览器视口
+        rootMargin: '10%', // 视口外扩10%，即视口外10%就代表进入视口
+        threshold: 0, // 0代表刚接触到视口就触发，1代表完全进入视口才触发
+      })
+      imgs.forEach((img) => {
+        observer.observe(img)
+      })
+    </script>
+  </body>
+</html>
